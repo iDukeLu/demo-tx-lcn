@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 日志级别：OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE-->
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="PID">????</Property>
+        <Property name="BASE_FILE_PATH">${sys:user.home}/logs/demo-tx-lcn-bankb</Property>
+        <Property name="LOG_PATTERN_CONSOLE">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
+        <Property name="LOG_PATTERN_FILE">%d{yyyy-MM-dd HH:mm:ss,SSS} %5p  ${sys:PID} --- [%15.15t]  %-40.40c{1.} : %m%n%xwEx</Property>
+        <Property name="FILE_NAME_INFO">${BASE_FILE_PATH}/info.log</Property>
+        <Property name="FILE_NAME_WARN">${BASE_FILE_PATH}/warn.log</Property>
+        <Property name="FILE_NAME_ERROR">${BASE_FILE_PATH}/error.log</Property>
+        <Property name="FILE_PATTERN_INFO">${BASE_FILE_PATH}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log</Property>
+        <Property name="FILE_PATTERN_WARN">${BASE_FILE_PATH}/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log</Property>
+        <Property name="FILE_PATTERN_ERROR">${BASE_FILE_PATH}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN_CONSOLE}"/>
+        </Console>
+        <RollingFile name="RollingFileInfo" fileName="${FILE_NAME_INFO}" filePattern="${FILE_PATTERN_INFO}">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN_FILE}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        <RollingFile name="RollingFileWarn" fileName="${FILE_NAME_WARN}" filePattern="${FILE_PATTERN_WARN}">
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN_FILE}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        <RollingFile name="RollingFileError" fileName="${FILE_NAME_ERROR}" filePattern="${FILE_PATTERN_ERROR}">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN_FILE}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.hibernate.validator.internal.util.Version" level="warn"/>
+        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn"/>
+        <Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn"/>
+
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileInfo"/>
+            <AppenderRef ref="RollingFileWarn"/>
+            <AppenderRef ref="RollingFileError"/>
+        </Root>
+    </Loggers>
+</Configuration>
