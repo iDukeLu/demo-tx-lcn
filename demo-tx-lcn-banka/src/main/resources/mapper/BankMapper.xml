@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.idukelu.demo.demotxlcnbanka.business.dao.BankMapper">
+
+    <select id="findAccount" parameterType="String" resultType="AccountDO">
+        SELECT id, user, money FROM account WHERE user = #{user}
+    </select>
+
+    <update id="transfer" parameterType="TransferDTO">
+        UPDATE account SET money = money - #{money} WHERE user = #{user}
+    </update>
+</mapper>

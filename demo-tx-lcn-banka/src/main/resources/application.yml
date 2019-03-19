@@ -1,0 +1,40 @@
+server:
+  port: 9901
+
+spring:
+  application:
+    name: tx-lcn-banka
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bank_a?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 19940407
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.idukelu.demo.demotxlcnbanka.business.pojo
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /info
+    health-check-url-path: /health
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://39.105.99.4:8761/eureka/, http://39.106.44.105:8761/eureka/
+
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+
+tx-lcn:
+  client:
+    manager-address: 192.168.31.250:8770
