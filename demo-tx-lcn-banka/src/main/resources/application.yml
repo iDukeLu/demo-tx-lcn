@@ -37,4 +37,4 @@ feign:
 
 tx-lcn:
   client:
-    manager-address: 192.168.31.250:8770
+    manager-address: 39.105.99.4:8770
